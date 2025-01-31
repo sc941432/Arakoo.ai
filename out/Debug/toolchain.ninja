@@ -1,0 +1,21 @@
+rule cc
+  command = C:/mingw64/bin/gcc.exe -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include/openssl -c ${in} -o ${out}
+  description = COMPILE ${out}
+  depfile = ${out}.d
+  deps = gcc
+rule cxx
+  command = C:/mingw64/bin/g++.exe -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include/openssl -c ${in} -o ${out}
+  description = COMPILE ${out}
+  depfile = ${out}.d
+  deps = gcc
+rule alink
+  command = C:/mingw64/bin/ar.exe rcs ${out} ${in}
+  description = ARCHIVE ${out}
+rule link
+  command = C:/mingw64/bin/g++.exe ${in} -o ${out} -LC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libssl.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libcrypto.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_system-vc143-mt-x64-1_86.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_thread-vc143-mt-x64-1_86.lib -lws2_32
+  description = LINK ${out}
+
+subninja obj/gtest.ninja
+subninja obj/gtest_main.ninja
+subninja obj/my_test.ninja
+subninja obj/websocket_client.ninja

@@ -1,0 +1,2 @@
+# Point to the BUILDCONFIG.gn file
+buildconfig = "//BUILDCONFIG.gn"

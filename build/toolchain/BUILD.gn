@@ -1,0 +1,35 @@
+toolchain("mingw_toolchain") {
+  cc = "C:/mingw64/bin/gcc.exe"
+  cxx = "C:/mingw64/bin/g++.exe"
+  ld = "C:/mingw64/bin/g++.exe"
+  ar = "C:/mingw64/bin/ar.exe"
+
+  tool("cc") {
+    command = "$cc -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include/openssl -c {{source}} -o {{output}}"
+    depfile = "{{output}}.d"
+    depsformat = "gcc"
+    description = "COMPILE {{output}}"
+    outputs = ["{{target_output_name}}.o"]
+  }
+
+  tool("cxx") {
+    command = "$cxx -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include -IC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include/openssl -c {{source}} -o {{output}}"
+    depfile = "{{output}}.d"
+    depsformat = "gcc"
+    description = "COMPILE {{output}}"
+    outputs = ["{{target_output_name}}.o"]
+  }
+
+  tool("alink") {
+  command = "$ar rcs {{output}} {{inputs}}"
+  description = "ARCHIVE {{output}}"
+  outputs = ["{{target_output_name}}.a"]
+}
+
+  tool("link") {
+    # Use a single-line string for the command.
+    command = "$ld {{inputs}} -o {{output}} -LC:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libssl.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libcrypto.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_system-vc143-mt-x64-1_86.lib C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_thread-vc143-mt-x64-1_86.lib -lws2_32"
+    description = "LINK {{output}}"
+    outputs = ["{{target_output_name}}.exe"]
+  }
+}

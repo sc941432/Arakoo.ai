@@ -1,0 +1,13 @@
+target_output_name = my_test
+
+build my_test.o: cxx ../../my_test.cpp
+  source_file_part = my_test.cpp
+  source_name_part = my_test
+
+build my_test.exe: link my_test.o gtest_main.a gtest.a
+  ldflags =
+  libs =
+  frameworks =
+  swiftmodules =
+  output_extension =
+  output_dir =

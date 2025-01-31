@@ -1,0 +1,7 @@
+target_output_name = client_helpers
+
+build client_helpers.o: cxx ../../src/client_helpers.cpp
+  source_file_part = client_helpers.cpp
+  source_name_part = client_helpers
+
+build phony/client_helpers: phony client_helpers.o

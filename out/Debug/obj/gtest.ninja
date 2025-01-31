@@ -1,0 +1,10 @@
+target_output_name = gtest
+
+build gtest.o: cxx ../../third_party/gtest/googletest/src/gtest-all.cc
+  source_file_part = gtest-all.cc
+  source_name_part = gtest-all
+
+build gtest.a: alink gtest.o
+  arflags =
+  output_extension =
+  output_dir =

@@ -1,0 +1,77 @@
+config("debug_config") {
+  cflags = [ "-g", "-O0" ]
+  ldflags = [ "-g" ]
+}
+
+config("release_config") {
+  cflags = [ "-O3" ]
+  ldflags = []
+}
+
+# Main application target
+executable("websocket_client") {
+  sources = [
+    "//src/main.cpp",
+  ]
+
+  include_dirs = [
+    rebase_path("//vcpkg/installed/x64-windows/include", root_build_dir),
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include",
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/include/openssl"
+  ]
+
+  cflags = [
+    "-std=c++17",
+    "-DBOOST_USE_WINDOWS_H",
+  ]
+
+  ldflags = [
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libssl.lib",
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/libcrypto.lib",
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_system-vc143-mt-x64-1_86.lib",
+    "C:/Users/sc941/OneDrive/Desktop/Arakoo.ai/vcpkg/installed/x64-windows/lib/boost_thread-vc143-mt-x64-1_86.lib",
+    "-lws2_32",
+  ]
+
+  if (defined(is_debug) && is_debug) {
+    configs = [ ":debug_config" ]
+  } else {
+    configs = [ ":release_config" ]
+  }
+}
+
+
+# Google Test setup
+gtest_sources = [
+  "//third_party/gtest/googletest/src/gtest-all.cc",  # Use only gtest-all.cc
+]
+
+static_library("gtest") {
+  sources = gtest_sources
+  include_dirs = [
+    "//third_party/gtest/googletest/include",
+    "//third_party/gtest/googletest",
+    "//third_party/gtest/googletest/src",  # Ensure this path is included
+  ]
+}
+
+static_library("gtest_main") {
+  sources = ["//third_party/gtest/googletest/src/gtest_main.cc"]
+  deps = [ ":gtest" ]
+}
+
+#source_set("client_helpers") {
+#  sources = [ "//src/client_helpers.cpp" ]
+#  visibility = [ "*" ]  # Allow all targets to depend on this
+#}
+
+executable("my_test") {
+  sources = [ "my_test.cpp" ]  # Remove client_helpers.cpp from sources
+  deps = [ ":gtest_main"]  # Depend on the client_helpers source set
+
+  if (defined(is_debug) && is_debug) {
+    configs = [ ":debug_config" ]
+  } else {
+    configs = [ ":release_config" ]
+  }
+}
